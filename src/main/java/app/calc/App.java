@@ -1,23 +1,22 @@
 package app.calc;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
-    private static final int MAX_INDEX = 10;
-    private int[] results = new int[MAX_INDEX];
+    private List<Integer> results = new ArrayList<Integer>();
 
     public static void main(String[] args) {
 
         App calculator = new App();
-
-        int index = 0;
 
         String input = "";
 
         while (true) {
 
             if (input.equals("exit")) break;
+
+            if (input.equals("remove")) calculator.results.remove(0);
 
             Scanner sc = new Scanner(System.in);
 
@@ -30,17 +29,16 @@ public class App {
             System.out.println("사칙연산 기호를 입력하세요");
             String operator = sc.nextLine();
 
-            int result = 0;
-
             try {
-                result = calculator.calculate(firstNum, secondNum, operator);
-                calculator.push(result, index++);
-                System.out.printf("결과: %d", result);
+                int result = calculator.calculate(firstNum, secondNum, operator);
+                calculator.results.add(result);
+                System.out.printf("결과: %d\n", result);
             } catch (Exception e) {
                 System.out.printf("에러 발생 : %s", e.getMessage());
             }
 
-            System.out.println("\n더 계산하시겠습니까? (exit 입력 시 종료)");
+            System.out.println("가장 먼저 저장된 연산 결과를 삭제하시겠습니까? (remove 입력 시 삭제)");
+            System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
             input = sc.nextLine();
         }
     }
@@ -68,16 +66,5 @@ public class App {
         }
 
         return result;
-    }
-
-    public void push(int element, int index) {
-        if (index >= MAX_INDEX - 1) { // 저장 인덱스 초과시 배열 내 값 이동
-            for (int i = 0; i < MAX_INDEX - 2; i++) {
-                results[i] = results[i + 1];
-            }
-            results[MAX_INDEX - 1] = element;
-        } else {
-            results[index] = element;
-        }
     }
 }
