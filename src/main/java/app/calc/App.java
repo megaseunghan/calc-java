@@ -5,6 +5,8 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
+        int[] results = new int[10];
+        int index = 0;
 
         String input = "";
 
@@ -27,6 +29,7 @@ public class App {
 
             try {
                 result = calculate(firstNum, secondNum, operator);
+                results[index++] = result;
                 System.out.printf("결과: %d", result);
             } catch (Exception e) {
                 System.out.printf("에러 발생 : %s", e.getMessage());
