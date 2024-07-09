@@ -4,8 +4,13 @@ import java.util.Scanner;
 
 public class App {
 
+    private static final int MAX_INDEX = 10;
+    private int[] results = new int[MAX_INDEX];
+
     public static void main(String[] args) {
-        int[] results = new int[10];
+
+        App calculator = new App();
+
         int index = 0;
 
         String input = "";
@@ -28,8 +33,8 @@ public class App {
             int result = 0;
 
             try {
-                result = calculate(firstNum, secondNum, operator);
-                results[index++] = result;
+                result = calculator.calculate(firstNum, secondNum, operator);
+                calculator.push(result, index++);
                 System.out.printf("결과: %d", result);
             } catch (Exception e) {
                 System.out.printf("에러 발생 : %s", e.getMessage());
@@ -40,7 +45,7 @@ public class App {
         }
     }
 
-    private static int calculate(int first, int second, String operator) throws RuntimeException {
+    public int calculate(int first, int second, String operator) throws RuntimeException {
 
         int result = 0;
 
@@ -63,5 +68,16 @@ public class App {
         }
 
         return result;
+    }
+
+    public void push(int element, int index) {
+        if (index >= MAX_INDEX - 1) { // 저장 인덱스 초과시 배열 내 값 이동
+            for (int i = 0; i < MAX_INDEX - 2; i++) {
+                results[i] = results[i + 1];
+            }
+            results[MAX_INDEX - 1] = element;
+        } else {
+            results[index] = element;
+        }
     }
 }
